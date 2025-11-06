@@ -13,7 +13,7 @@ $ curl -LsSf https://astral.sh/uv/install.sh | sh
 # Windows
 $ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
-2. 依存環境を同期
+2. 実行環境を同期
 ```
 $ uv sync
 ```
