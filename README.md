@@ -23,3 +23,10 @@ $ uv run cas_test/test.py
 ```
 
 これだけ！
+
+## 使い方
+- 起動後、Image Source > Camera Sourceを"Colour Webcam"に設定し、Live Imagingを押すと映る。
+- `Filter.process()` にフィルター関数を実装すると適用される。現在はパワースペクトルが表示されるようになっている(はず)
+
+## メモ
+- このフレームワークはmacだとwebCamを認識できず使えないみたい。(´;ω;｀)
