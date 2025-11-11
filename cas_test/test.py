@@ -7,24 +7,15 @@ import numpy as np
 
 # 処理クラスの定義
 class Filter(ImageProcessorClass):
+    last_frame = None
     def process(self, inputFrame):
-        # パワースペクトル（パワースペクトル密度）の計算
-        # 入力：inputFrame（2D numpy配列、画像）
-        # 出力：パワースペクトル画像（logスケールで正規化表示）
-
-        # 2次元FFT
-        f = np.fft.fft2(inputFrame)
-        fshift = np.fft.fftshift(f)
-
-        # パワースペクトル
-        psd2D = np.abs(fshift) ** 2
-
-        # logスケールに変換（可視化のため、+1でlog(0)回避）
-        psd2D_log = np.log(psd2D + 1)
-
-        # 0-255に正規化して画像として返す
-        psd2D_norm = 255 * (psd2D_log - psd2D_log.min()) / (psd2D_log.max() - psd2D_log.min())
-        return psd2D_norm.astype(np.uint8)
+        if self.last_frame is None:
+            self.last_frame = inputFrame
+            return inputFrame
+        else:
+            diff = np.abs(inputFrame - self.last_frame)
+            self.last_frame = inputFrame
+            return diff
 
 # GUIクラスの定義
 class ExampleGUI(CAS_GUI):
