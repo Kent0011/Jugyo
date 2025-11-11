@@ -13,7 +13,8 @@ class Filter(ImageProcessorClass):
             self.last_frame = inputFrame
             return inputFrame
         else:
-            diff = np.abs(inputFrame - self.last_frame)
+            diff = np.abs(inputFrame.astype(np.float32) - self.last_frame.astype(np.float32))
+            diff = np.clip(diff, 0, 255).astype(np.uint8)
             self.last_frame = inputFrame
             return diff
 
