@@ -9,14 +9,11 @@ import numpy as np
 class Filter(ImageProcessorClass):
     last_frame = None
     def process(self, inputFrame):
-        if self.last_frame is None:
-            self.last_frame = inputFrame
-            return inputFrame
-        else:
-            diff = np.abs(inputFrame.astype(np.float32) - self.last_frame.astype(np.float32))
-            diff = np.clip(diff, 0, 255).astype(np.uint8)
-            self.last_frame = inputFrame
-            return diff
+        inputFrame = inputFrame.astype(np.float32)
+        f = np.fft.fft2(inputFrame)
+        f_inv = np.fft.ifft2(f)
+        psd2D_norm = np.abs(f_inv)
+        return psd2D_norm.astype(np.uint8)  
 
 # GUIクラスの定義
 class ExampleGUI(CAS_GUI):
