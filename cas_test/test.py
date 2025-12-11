@@ -11,19 +11,20 @@ class Filter(ImageProcessorClass):
         a = inputFrame.astype(np.float32)
         if self.last_frame is None:
             self.last_frame = a
-        b = self.last_frame.astype(np.float32)
-
-        result = np.fft.fft2(a) * np.fft.fft2(np.conj(b))
-        result = np.fft.ifft2(result)
+        b = np.rot90(np.rot90(self.last_frame))
+        
         self.last_frame = a
-        return np.abs(result)
+
+        a_fft = np.fft.fftshift(np.fft.fft2(a))
+        b_fft = np.fft.fftshift(np.fft.fft2(b))
+        conv = np.fft.ifft2(a_fft*b_fft)
+        return np.abs(np.fft.fftshift(conv))
 
 # GUIクラスの定義
 class ExampleGUI(CAS_GUI):
     def __init__(self):
         self.processor = Filter
         super().__init__()
-        print("FILTER SET")
 
 # 実行エントリポイント
 if __name__ == "__main__":
